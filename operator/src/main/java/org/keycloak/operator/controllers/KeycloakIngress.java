@@ -61,13 +61,15 @@ public class KeycloakIngress extends OperatorManagedResource implements StatusUp
     private Ingress newIngress() {
         var port = (keycloak.getSpec().isHttp()) ? Constants.KEYCLOAK_HTTP_PORT : Constants.KEYCLOAK_HTTPS_PORT;
         var backendProtocol = (keycloak.getSpec().isHttp()) ? "HTTP" : "HTTPS";
-
+        var ingressConfig = keycloak.getSpec().getIngressConfig();
+        var customAnnotations = (ingressConfig != null) ? ingressConfig.getAnnotations() : null;
         Ingress ingress = new IngressBuilder()
                 .withNewMetadata()
                     .withName(getName())
                     .withNamespace(getNamespace())
                     .addToAnnotations("nginx.ingress.kubernetes.io/backend-protocol", backendProtocol)
                     .addToAnnotations("route.openshift.io/termination", "passthrough")
+                    .addToAnnotations(customAnnotations)
                 .endMetadata()
                 .withNewSpec()
                     .withNewDefaultBackend()

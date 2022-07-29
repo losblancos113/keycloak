@@ -52,6 +52,9 @@ public class KeycloakSpec {
         "Use at your own risk and open an issue with your use-case if you don't find an alternative way.")
     private KeycloakSpecUnsupported unsupported;
 
+    @JsonPropertyDescription("Configuration of the ingress")
+    private IngressConfig ingressConfig;
+
     public String getHostname() {
         return hostname;
     }
@@ -116,5 +119,13 @@ public class KeycloakSpec {
 
     public void setServerConfiguration(List<ValueOrSecret> serverConfiguration) {
         this.serverConfiguration = serverConfiguration;
+    }
+
+    public IngressConfig getIngressConfig() {
+        return ingressConfig;
+    }
+
+    public void setIngressConfig(IngressConfig ingressConfig) {
+        this.ingressConfig = ingressConfig;
     }
 }
